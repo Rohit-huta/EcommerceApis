@@ -1,0 +1,15 @@
+label{
+	width: 200px ;
+	color: black !important;
+}
+
+.form-control input{
+	background-color: rgb(255, 255, 255) !important;
+}
+.wrapper {
+	min-height: calc(100vh - 60px); /* Adjust the height to accommodate the footer */
+	padding-bottom: 60px; /* Same height as the footer */
+	box-sizing: border-box;
+  }
+  
+
