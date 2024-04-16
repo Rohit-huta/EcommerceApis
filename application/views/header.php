@@ -32,12 +32,24 @@
   <?php 
 	$is_logged = $this->session->tempdata("is_logged"); 
 	$is_admin = $this->session->tempdata("is_admin"); 
+
 	?>
 
+<!-- Go to cart -->
+<form id='cartForm' action="<?php echo base_url('/home/get_cart_items');?>" method='post'>
+	<input type="hidden" name='user_id' value='<?php echo $_SESSION['user_id'];?>'>
+</form>	
 
-	<form id='cartForm' action="<?php echo base_url('/home/get_cart_items');?>" method='post'>
-				<input type="hidden" name='user_id' value='<?php echo $_SESSION['user_id'];?>'>
-	</form>
+<!-- Go to orders  -->
+<form id='order_form' action="<?php echo base_url('/home/get_orders');?>" method='post'>
+	<input type="hidden" name='user_id' value='<?php echo $_SESSION['user_id'];?>'>
+</form>	
+
+<!-- Get wishlist -->
+<form id='wishlist_form' action="<?php echo base_url('/home/get_wishlist');?>" method='post'>
+	<input type="hidden" name='user_id' value='<?php echo $_SESSION['user_id'];?>'>
+</form>	
+
 
 	<div>
       <nav class="navbar navbar-expand-xl bg-primary">
@@ -61,7 +73,7 @@
 							<i class="fas fa-bars tm-nav-icon"></i>
 						</button>
 
-						<?php if($is_logged){ ?>
+						<?php if($is_logged == 1){ ?>
 						<div class="collapse navbar-collapse links" id="navbarSupportedContent">
 							<ul class="navbar-nav mx-auto h-100">
 								<li class="nav-item">
@@ -73,13 +85,20 @@
 								<?php if($is_admin == 0){?>
 									<li class='nav-item' style='color: white;'>
 										<!-- submit form function is in footer.php -->
-										<a class="nav-link" onclick="submit_cart_form()" style='pointer: cursor;'>
-											<i class="fa-solid fa-cart-shopping"></i> Cart
+										<a class="nav-link" onclick="submit_wishlist_form()" style='pointer: cursor;'>
+											<i class="fa-solid fa-heart"></i> Wishlist
 										</a>
 									</li>
 									<li class='nav-item' style='color: white;'>
 										<!-- submit form function is in footer.php -->
-										<a class="nav-link" onclick="submit_order_form()" style='pointer: cursor;'>
+										<a class="nav-link" onclick="submit_cart_form()" style='cursor: pointer ;'>
+											<i class="fa-solid fa-cart-shopping"></i> Cart
+										</a>
+									
+									</li>
+									<li class='nav-item' style='color: white;'>
+										<!-- submit form function is in footer.php -->
+										<a class="nav-link" onclick="submit_order_form()" style="cursor: pointer;">
 											<i class="fa-solid fa-cart-shopping"></i> Orders
 										</a>
 									</li>

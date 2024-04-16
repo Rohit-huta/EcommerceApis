@@ -13,10 +13,14 @@
     <script src="<?php echo base_url('assets/lay_js/jquery-3.3.1.min.js');?>"></script>
     <!-- https://jquery.com/download/ -->
 
-    <script src="	<?php echo base_url('assets/lay_js/bootstrap.min.js');?>"></script>
+    <script src="<?php echo base_url('assets/lay_js/bootstrap.min.js');?>"></script>
 	<script>
 		function submit_cart_form() {
 			document.getElementById('cartForm').submit();
+		}
+		
+		function submit_order_form(){
+			document.getElementById('order_form').submit();
 		}
 		
 		function submitDeleteForm() {
@@ -24,6 +28,12 @@
 		}
 		function submitUpdateForm() {
 			document.getElementById('updateForm').submit();
+		}
+		function submit_wishlist_form() {
+			document.getElementById('wishlist_form').submit();
+		}
+		function add_to_wishlist_form() {
+			document.getElementById('add_to_wishlist_form').submit();
 		}
 	</script>
 

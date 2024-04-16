@@ -1,26 +1,11 @@
-<?php require_once(APPPATH . 'views/header.php');
- echo validation_errors();
-?>
-
-<?php
-if ($this->session->flashdata('success')) {
-    echo $this->session->flashdata('success');
-}
-if ($this->session->flashdata('deleteProduct')) {
-    echo $this->session->flashdata('deleteProduct');
-}
-if ($this->session->flashdata('message')) {
-    echo $this->session->flashdata('message');
-}
-?>
-
-
-
+<!-- HEADER -->
+<?php require_once(APPPATH . 'views/header.php'); ?>
+<?php $user_id = $this->session->tempdata('user_id');?>
 
 
 <div class='ml-5' style="margin-top: 4rem;">
-	<h1 class=''>Products</h1>
-	<?php if(!empty($products)){ ?>
+	<h1 class=''>WISHLIST</h1>
+	<?php  if(!empty($products)){ ?>
 		<div class="row mt-5">
 			<?php foreach ($products as $product) { ?>
 				<form id='add_to_wishlist_form' action="<?php echo base_url('/home/add_to_wishlist');?>" method='post'>
@@ -75,5 +60,7 @@ if ($this->session->flashdata('message')) {
 </div>
 
 
-	
+
+
+<!-- FOOTER -->
 <?php require_once(APPPATH . 'views/footer.php');?>

@@ -70,13 +70,11 @@ else {?>
 
 
 			</table>
-<a href="<?php echo base_url('/product');?>" class="btn btn-primary btn-block text-uppercase mb-3">
-	Add new product
-</a>
-<button class="btn btn-primary btn-block text-uppercase">
-	Delete selected products
-</button>
-</div>
+			
+		</div>
+		<a href="<?php echo base_url('/product');?>" class="btn btn-primary btn-block text-uppercase mb-3">
+			Add new product
+		</a>
 </div>
 </div>
 

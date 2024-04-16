@@ -7,12 +7,13 @@ class Home extends CI_Controller {
 	function __construct() {
         parent::__construct();
 		$this->load->database();
+		$this->load->model("Crud");
 	
     }
 
-	public function validToken(){
+	public function getTokenDataFromCookie(){
 		$jwt_token = $this->input->cookie('jwt_token');
-
+		
 		if(!empty($jwt_token)){
 			$this->load->library('authorization_token');
 			$token_data = $this->authorization_token->validateToken();
@@ -27,7 +28,7 @@ class Home extends CI_Controller {
 		// $is_admin = $this->session->userdata('is_admin');
 		// $is_logged = $this->session->userdata('logged_in');
 
-		$token_data = $this->validToken();
+		$token_data = $this->getTokenDataFromCookie();
 	
 		if($token_data){
 			// print_r($token_data);
@@ -77,7 +78,16 @@ class Home extends CI_Controller {
 		$this->load->model("Crud");
 		$res = $this->Crud->read("Products");
 		$this->session->set_tempdata('products', $res);
-		
+	}
+
+	public function get_product_by_id($product_id){
+		$data = $this->Crud->get_where("products", "product_id", $product_id);
+		if(!empty($data)){
+			return $data;
+		}else{
+			return false;
+		}
+
 	}
 
 
@@ -166,7 +176,7 @@ class Home extends CI_Controller {
 
 	public function showLoginForm() {
 
-		$token_data = $this->validToken();
+		$token_data = $this->getTokenDataFromCookie();
 
 		if(!isset($token_data['status']) ){
 			$this->load->view("login");
@@ -254,14 +264,14 @@ class Home extends CI_Controller {
 		}
 	}
 
+
+
+
+
 	public function check_out(){
-		
 		$this->load->view("User/check_out");
 	}
-
 	public function procced_to_payment() {
-
-		
 		$cart_items = $this->session->tempdata("cart_items");
 
 		$user_id = $this->session->tempdata("user_id");
@@ -331,24 +341,80 @@ class Home extends CI_Controller {
 				}else{
 					echo "ORDER Insertion failed";
 				}
-
-			
-			
-
 			} else{
 				echo "Payment no done";
 			}
 			
 		}
-
 	}
 
 
-	public function get_orders(){
-		$user_id= $this->input->post("user_id");
 
+
+	public function get_orders(){
+		 // Retrieve user_id from the POST data
+		 $user_id = $this->input->post("user_id");
+		 // Fetch orders for the user
+		 $orders = $this->Crud->get_where("orders", "user_id",$user_id);
 	
+		 // For each order, fetch order items and corresponding product details
+		 foreach ($orders as $order) {
+			 $order_items = $this->Crud->get_where("order_items", "order_id", $order['order_id']);
+			 $products = array();
+			 foreach ($order_items as $item) {
+				 $product_details = $this->Crud->get_where("products", "product_id", $item['product_id']);
+				 $products = $product_details;
+			 }
+		 }
+		
+		 // Pass orders data to the view
+		 $data['orders'] = $products;
+	 
+		 // Load the view to display orders
+		 $this->load->view('User/orders', $data);
 	} // orders
+
+
+
+
+	public function add_to_wishlist() {
+		$product_id = $this->input->post("product_id");
+		$user_id = $this->input->post("user_id");
+		$data = array(
+			"user_id" => $user_id,
+			"product_id" => $product_id,
+			
+		);
+		$status = $this->Crud->insert("wishlist", $data);
+		if($status){
+			$this->session->set_flashdata("message", "Added to wish list");
+			redirect('/');
+		}else{
+			$this->session->set_flashdata("error", "Could not be added to wish list");
+			redirect('/');
+		}
+	}
+
+
+
+	public function get_wishlist() {
+		$user_id = $this->input->post("user_id");
+	
+		$wishlist_data = $this->Crud->get_where("wishlist", "user_id" ,$user_id);
+
+		$products = array();
+		if(!empty($wishlist_data)){
+			foreach ($wishlist_data as $item) {
+				$products = $this->get_product_by_id($item['product_id']);
+			}
+			$this->load->view("User/wishlist_view", array("products" => $products));
+			
+		}else{
+			echo "OOPs";
+		}
+		
+		
+	}
 
 
 

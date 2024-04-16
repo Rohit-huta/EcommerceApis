@@ -1,23 +1,22 @@
 <?php require_once(APPPATH . 'views/header.php');
- echo validation_errors();
+
 ?>
-		<!-- form_validation errors -->
-		<?php echo validation_errors(); 
-		$categories = $this->session->tempdata('categories');
-		?>
+<?php
+$categories = $this->session->tempdata('categories');
+?>
 
-		<!-- image uploding errors -->
-		<?php 
+<!-- image uploding errors -->
+<?php
 
-			if ($this->session->flashdata('message')) {
-			// Display error message
-				echo $this->session->flashdata('message');
-			}
-		?>
+	if ($this->session->flashdata('message')) {
+	// Display error message
+		echo $this->session->flashdata('message');
+	}
+?>
 
 <div class='container'>
 	<h1 class='mt-5'>Edit Product</h1>
-	<form action="<?php echo base_url('/product/addProduct'); ?>" 
+	<form action="<?php echo base_url('/product/updateProduct'); ?>" 
 		  method='POST' 
 		  enctype="multipart/form-data"
 		  class='mt-4'

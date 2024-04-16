@@ -5,7 +5,7 @@ class Crud extends CI_Model{
 
 	public function insert($table, $data){
 		$res = $this->db->insert($table, $data);
-		if($this->db->affected_rows() == 1){
+		if($this->db->affected_rows() > 0){
 			return true;
 		}else{
 			return false;
@@ -46,6 +46,13 @@ class Crud extends CI_Model{
 		}
     }
 
+	public function get_where($table, $column, $data){
+		$query = $this->db->get_where($table, array($column => $data));
+		if($this->db->affected_rows() > 0){
+			
+			return $query->result_array();
+		}
+	}
 
 
 	public function read_cart($table, $data){
@@ -100,11 +107,5 @@ class Crud extends CI_Model{
 	}
 
 
-	public function get_where($table, $column, $data){
-		$query = $this->db->get_where($table, array($column => $data));
-		if($this->db->affected_rows() > 0){
-			
-			return $query->result_array();
-		}
-	}
+	
 }
